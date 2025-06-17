@@ -105,9 +105,14 @@ Proyek ini dikembangkan untuk memenuhi tugas akhir mata kuliah **Embedded System
 
 ---
 
-## 📷 Demo & Dokumentasi Tambahan
+## 📸 Dokumentasi Proyek
 
-📷 *(Tambahkan gambar alat, wiring diagram, atau link video YouTube jika ada)*
+### ⚙️ Prototype Alat
+![Prototype](Foto_Dokumentasi/Prototype.jpg)
+
+### 🔌 Rangkaian Alat
+![Rangkaian](Foto_Dokumentasi/Rangkaian.jpg)
+
 
 ---
 
