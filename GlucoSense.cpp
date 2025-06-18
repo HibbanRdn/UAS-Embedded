@@ -19,9 +19,19 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 DHT dht(DHTPIN, DHTTYPE);
 
-// Kalibrasi 
-float kalibrasiGula(int adc) {
-  return 2.5 * adc - 50;
+const int pinSensor = A0;
+
+// Kalibrasi ADC ke mg/dL 
+const int nilaiADC_Min = 100;   // ADC minimum (kadar gula rendah)
+const int nilaiADC_Max = 800;   // ADC maksimum (kadar gula tinggi)
+const float gula_Min = 70.0;    // Kadar gula darah minimal normal
+const float gula_Max = 200.0;   // Kadar gula darah maksimal
+
+unsigned long waktuSebelumnya = 0;
+const unsigned long interval = 500; // setiap 0.5 detik
+
+float mapf(float x, float in_min, float in_max, float out_min, float out_max) {
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
 int getAverageADC(int pin, int jumlah) {
@@ -67,6 +77,7 @@ void setup() {
 
 
 void loop() {
+  // Baca jarak dari sensor ultrasonik
   digitalWrite(TRIG_PIN, LOW);
   delayMicroseconds(2);
   digitalWrite(TRIG_PIN, HIGH);
@@ -81,28 +92,31 @@ void loop() {
   Serial.println(" cm");
 
   if (jarak < 5) {
+    // Tangan/jari terdeteksi
     digitalWrite(LED_GD, HIGH);
     digitalWrite(LED_GC, HIGH);
 
     int adcValue = getAverageADC(PHOTO_PIN, 10);
-    float gula = kalibrasiGula(adcValue);
+    float gula = mapf(adcValue, 100, 800, 70.0, 200.0);
+    if (gula < 70) gula = 70;
+    if (gula > 200) gula = 200;
+
     float suhu = dht.readTemperature();
 
-    // Tampilkan di serial monitor
+    // Serial output
     Serial.print("ADC: "); Serial.print(adcValue);
-    Serial.print(" | Gula: "); Serial.print(gula);
+    Serial.print(" | Gula: "); Serial.print(gula, 1);
     Serial.print(" mg/dL | Suhu: "); Serial.print(suhu);
     Serial.println(" C");
 
+    // LCD output
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("Gula: ");
-    lcd.print(gula, 0);
+    lcd.print(gula, 1);
     lcd.print(" mg/dL");
 
     lcd.setCursor(0, 1);
-
-    // Pesan kondisi + indikator
     if (gula < 90) {
       lcd.print("Gula anda rendah");
       digitalWrite(LED_HI, LOW);
@@ -129,10 +143,10 @@ void loop() {
       tone(BUZZER_PIN, 1000, 1000);
     }
 
-    delay(3000);
+    delay(3000); // Tahan hasil pembacaan
     lcd.clear();
   } else {
-    // Tidak ada jari
+    // Tidak ada jari: reset tampilan dan indikator
     digitalWrite(LED_HI, LOW);
     digitalWrite(LED_MD, LOW);
     digitalWrite(LED_LO, LOW);
@@ -141,9 +155,9 @@ void loop() {
     noTone(BUZZER_PIN);
 
     lcd.setCursor(0, 0);
-    lcd.print("Masukkan Jari");
+    lcd.print("Masukkan Jari   ");
     lcd.setCursor(0, 1);
-    lcd.print("Ke Dalam Box");
+    lcd.print("Ke Dalam Box    ");
   }
 
   delay(500);
