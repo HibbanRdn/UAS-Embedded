@@ -124,6 +124,7 @@ Proyek ini dikembangkan oleh mahasiswa dalam kelompok berikut:
 - 🧑‍💻 **M. Sulthon Alfarizky**
 - 🧑‍💻 **Radhitya Agrayasa Rhalin**
 - 🧑‍💻 **Puan Akeyla Maharani M.**
+> **Dosen Pengampu: Ir.Titin Yulianti, S.T., M.Eng.**
 
 ---
 
