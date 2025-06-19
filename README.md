@@ -30,9 +30,8 @@ Proyek ini merupakan alat **monitoring gula darah non-invasif** berbasis **Ardui
 2. Berdasarkan hasil:
    - LCD menampilkan nilai kadar gula & pesan kondisi.
    - LED dan buzzer aktif sesuai level gula:
-     - `< 90 mg/dL`: "Gula anda rendah" 🟢
+     - `< 90 mg/dL`: "Gula anda rendah" 🟡 🔔
      - `90-139 mg/dL`: "Gula anda normal" 🟢
-     - `140-199 mg/dL`: "Gula sedikit tinggi" 🟡 🔔
      - `≥ 200 mg/dL`: "Gula darah tinggi!" 🔴 🔔🔔
 
 ---
