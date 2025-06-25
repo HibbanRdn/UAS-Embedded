@@ -117,31 +117,25 @@ void loop() {
     lcd.print(" mg/dL");
 
     lcd.setCursor(0, 1);
-    if (gula < 90) {
+    if (gula < 70) {
       lcd.print("Gula anda rendah");
-      digitalWrite(LED_HI, LOW);
-      digitalWrite(LED_MD, LOW);
-      digitalWrite(LED_LO, HIGH);
+      digitalWrite(LED_HI, LOW);   // MERAH mati
+      digitalWrite(LED_MD, HIGH);  // KUNING nyala
+      digitalWrite(LED_LO, LOW);   // HIJAU mati
       noTone(BUZZER_PIN);
-    } else if (gula < 140) {
+  } else if (gula < 130) {
       lcd.print("Gula anda normal");
-      digitalWrite(LED_HI, LOW);
-      digitalWrite(LED_MD, LOW);
-      digitalWrite(LED_LO, HIGH);
+      digitalWrite(LED_HI, LOW);   // MERAH mati
+      digitalWrite(LED_MD, LOW);   // KUNING mati
+      digitalWrite(LED_LO, HIGH);  // HIJAU nyala
       noTone(BUZZER_PIN);
-    } else if (gula < 200) {
-      lcd.print("Gula sedikit tinggi");
-      digitalWrite(LED_HI, LOW);
-      digitalWrite(LED_MD, HIGH);
-      digitalWrite(LED_LO, LOW);
-      tone(BUZZER_PIN, 800, 500);
-    } else {
+  } else {
       lcd.print("Gula darah tinggi!");
-      digitalWrite(LED_HI, HIGH);
-      digitalWrite(LED_MD, LOW);
-      digitalWrite(LED_LO, LOW);
+      digitalWrite(LED_HI, HIGH);  // MERAH nyala
+      digitalWrite(LED_MD, LOW);   // KUNING mati
+      digitalWrite(LED_LO, LOW);   // HIJAU mati
       tone(BUZZER_PIN, 1000, 1000);
-    }
+  }
 
     delay(3000); // Tahan hasil pembacaan
     lcd.clear();
