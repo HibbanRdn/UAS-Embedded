@@ -38,7 +38,7 @@ int getAverageADC(int pin, int jumlah) {
   long total = 0;
   for (int i = 0; i < jumlah; i++) {
     total += analogRead(pin);
-    delay(5);
+    delay(1000);
   }
   return total / jumlah;
 }
